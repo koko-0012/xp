@@ -1,4 +1,5 @@
 const { RichEmbed } = require("discord.js")
+const { purple } = require("../../json/colours.json")
 
 module.exports = {
   config: {
@@ -26,28 +27,34 @@ run: async (bot, message, args, connection) => {
       if(!rows[0]) return message.channel.send(noinfo);
 
 
-      
+
+      let level = rows[0].level
+      let levelup = 1500;
+      let nxtLvl = level * levelup;
+      let xp = rows[0].xp;
+
+      let one = (level * 1) / 100; //1%
       let bar1 = `1% ●──────────── 100%` //1%
 
+      let two = (level * 25) / 100;//25%
       let bar2 = `25% ───●───────── 100%` //25%
 
+      let three = (level * 50) / 100 //50%
       let bar3 = `50% ──────●────── 100%` //50%
 
+      let four = (level * 75) / 100;//75%
       let bar4 = `75% ─────────●─── 100%` //75%
+
 
       let bar5 = `100% ─────────────● 100%` //100%
       
+      let xp1 = level * one;
+      let xp2 = level * two;
+      let xp3 = level * three;
+      let xp4 = level * four; 
+
+
       let bar;
-      let xp = rows[0].xp;
-      let one = 15; //1%
-      let two = 375;//25%
-      let three = 750; //50%
-      let four = 1125;//75%
-      
-      let xp1 = rows[0].level * one;
-      let xp2 = rows[0].level * two;
-      let xp3 = rows[0].level * three;
-      let xp4 = rows[0].level * four; 
       if(xp <= xp1){
         bar = bar1;
       } else {
@@ -65,20 +72,18 @@ run: async (bot, message, args, connection) => {
         }
       }}
 
-      let level = rows[0].level
+      
 
-      let levelup = 1500;
-      let nxtLvl = rows[0].level * levelup;
-      let tilllvl = nxtLvl - xp;
-
+      
+      let tillnxtlvl = nxtLvl - xp;
       let xpbar = bar;
 
 		  const msg = new RichEmbed()
 		  .setAuthor("User XP Profile")
-      .setColor("8A2BE2")
+      .setColor(purple)
       .setDescription(`**XP**: ${xp} | **LVL**: ${level}\n${xpbar}`)
 		  .setThumbnail(user.avatarURL)
-		  .setFooter(`Left till next level up ${tilllvl} XP | ${nxtLvl} XP`)
+		  .setFooter(`Left till next level up ${tillnxtlvl} XP | ${nxtLvl} XP`)
 		  message.channel.send(msg);
   })
 }}
